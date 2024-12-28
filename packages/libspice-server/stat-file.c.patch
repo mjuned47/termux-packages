@@ -3,7 +3,9 @@
 @@ -34,6 +34,65 @@
  #define STAT_SHM_SIZE(max_nodes) \
      (sizeof(SpiceStat) + (max_nodes) * sizeof(SpiceStatNode))
- 
+
++#ifdef __ANDROID__
++#include <alloca.h>
 +static int shm_unlink(const char *name) {
 +    size_t namelen;
 +    char *fname;
@@ -62,7 +64,7 @@
 +
 +    return fd;
 +}
-+
++#endif
  struct RedStatFile {
      char *shm_name;
      SpiceStat *stat;
