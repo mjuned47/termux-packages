@@ -14,7 +14,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 
 termux_step_pre_configure() {
 	LDFLAGS+=" $($CC -print-libgcc-file-name)"
-        LIBS+=" -landroid-glob"
+ 	LIBS+=" -landroid-glob"
 }
 
 termux_step_post_make_install() {
