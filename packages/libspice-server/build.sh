@@ -10,11 +10,10 @@ TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 --enable-manual=no
 --disable-tests
-LIBS+=" -landroid-glob"
 "
 
 termux_step_pre_configure() {
-	LDFLAGS+=" $($CC -print-libgcc-file-name)"
+	LDFLAGS+=" $($CC -print-libgcc-file-name) -landroid-glob"
 }
 
 termux_step_post_make_install() {
