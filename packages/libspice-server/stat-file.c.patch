@@ -65,6 +65,7 @@
 +    return fd;
 +}
 +#endif
++
  struct RedStatFile {
      char *shm_name;
      SpiceStat *stat;
