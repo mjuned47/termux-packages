@@ -294,6 +294,10 @@ PACKAGES+=" libwebp7 libwebp7:i386 libwebp-dev"
 PACKAGES+=" libwebpdemux2 libwebpdemux2:i386"
 PACKAGES+=" libwebpmux3 libwebpmux3:i386"
 
+# Required by chromium-based packages
+PACKAGES+=" libfontconfig1"
+PACKAGES+=" libfontconfig1:i386"
+
 # Required by wine-stable
 PACKAGES+=" libfreetype-dev:i386"
 
@@ -340,9 +344,15 @@ $SUDO locale-gen --purge en_US.UTF-8
 echo -e 'LANG="en_US.UTF-8"\nLANGUAGE="en_US:en"\n' | $SUDO tee -a /etc/default/locale
 
 . $(dirname "$(realpath "$0")")/properties.sh
-$SUDO mkdir -p $TERMUX_PREFIX
-$SUDO chown -R $(whoami) /data
-$SUDO ln -sf /data/data/com.termux/files/usr/opt/bionic-host /system
+
+# Ownership of `TERMUX__PREFIX` must be fixed before `TERMUX_APP__DATA_DIR`
+# if its under it, otherwise `TERMUX__ROOTFS` will not have its ownership fixed.
+$SUDO mkdir -p "$TERMUX__PREFIX"
+$SUDO chown -R "$(whoami)" "$TERMUX__PREFIX"
+$SUDO mkdir -p "$TERMUX_APP__DATA_DIR"
+$SUDO chown -R "$(whoami)" "${TERMUX_APP__DATA_DIR%"${TERMUX_APP__DATA_DIR#/*/}"}" # Get `/path/` from `/path/to/app__data_dir`.
+
+$SUDO ln -sf /data/data/com.termux/files/usr/opt/aosp /system
 
 # Install newer pkg-config then what ubuntu provides, as the stock
 # ubuntu version has performance problems with at least protobuf:

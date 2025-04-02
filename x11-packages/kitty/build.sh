@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://sw.kovidgoyal.net/kitty/
 TERMUX_PKG_DESCRIPTION="Cross-platform, fast, feature-rich, GPU based terminal"
 TERMUX_PKG_LICENSE="GPL-3.0"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="0.38.1"
+TERMUX_PKG_VERSION="0.41.0"
 TERMUX_PKG_SRCURL=https://github.com/kovidgoyal/kitty/releases/download/v${TERMUX_PKG_VERSION}/kitty-${TERMUX_PKG_VERSION}.tar.xz
-TERMUX_PKG_SHA256=81b81fb4640588dc630871d48243c0e704535412e66ec500ecec3e436673b643
+TERMUX_PKG_SHA256=30c59848585d89d2d25bd0050b172c1cd9dfdc0071cfce6917e6b035fec766b7
 # fontconfig is dlopen(3)ed:
 TERMUX_PKG_DEPENDS="dbus, fontconfig, harfbuzz, libpng, librsync, libx11, libxkbcommon, littlecms, ncurses, opengl, openssl, python, xxhash, zlib"
 TERMUX_PKG_BUILD_DEPENDS="libxcursor, libxi, libxinerama, libxrandr, simde, xorgproto"
@@ -73,7 +73,7 @@ termux_step_host_build() {
 	make -j "${TERMUX_PKG_MAKE_PROCESSES}" install
 	popd
 	pushd "libxkbcommon-xkbcommon-${ver[libxkbcommon]}" || termux_error_exit "Failed to hostbuild 'libxkbcommon'"
-	${TERMUX_MESON} \
+	${TERMUX_MESON} setup \
 		"${TERMUX_PKG_HOSTBUILD_DIR}/build-xkbcommon" . \
 		--prefix "${TERMUX_PKG_HOSTBUILD_DIR}" \
 		-Denable-bash-completion=false \
