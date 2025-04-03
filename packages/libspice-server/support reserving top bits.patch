@@ -1,0 +1,66 @@
+diff --git a/server/memslot.c b/server/memslot.c
+--- a/server/memslot.c
++++ b/server/memslot.c
+@@ -52,6 +52,13 @@ int memslot_validate_virt(RedMemSlotInfo *info, uintptr_t virt, int slot_id,
+ {
+     MemSlot *slot;
+ 
++    /* detect host group */
++    slot = &info->mem_slots[group_id][0];
++    if (slot->virt_end_addr == ~(uintptr_t)0 && slot->virt_start_addr == 0 &&
++        slot->address_delta == 0) {
++        return 1;
++    }
++
+     slot = &info->mem_slots[group_id][slot_id];
+     if ((virt + add_size) < virt) {
+         spice_critical("virtual address overlap");
+@@ -102,6 +109,13 @@ void *memslot_get_virt(RedMemSlotInfo *info, QXLPHYSICAL addr, uint32_t add_size
+         return NULL;
+     }
+ 
++    /* detect host group */
++    slot = &info->mem_slots[group_id][0];
++    if (slot->virt_end_addr == ~(uintptr_t)0 && slot->virt_start_addr == 0 &&
++        slot->address_delta == 0) {
++        return (void *)(uintptr_t)addr;
++    }
++
+     slot_id = memslot_get_id(info, addr);
+     if (slot_id >= info->num_memslots) {
+         print_memslots(info);
+diff --git a/server/tests/test-qxl-parsing.cpp b/server/tests/test-qxl-parsing.cpp
+--- a/server/tests/test-qxl-parsing.cpp	2023-05-12 14:07:06.000000000 +0530
++++ b/server/tests/test-qxl-parsing.cpp	2025-04-02 21:17:27.742406709 +0530
+@@ -58,8 +58,11 @@
+ 
+ static void init_meminfo(RedMemSlotInfo *mem_info)
+ {
+-    memslot_info_init(mem_info, 1 /* groups */, 1 /* slots */, 1, 1, 0);
++    memslot_info_init(mem_info, 2 /* groups */, 1 /* slots */, 1, 1, 0);
+     memslot_info_add_slot(mem_info, 0, 0, 0 /* delta */, 0 /* start */, UINTPTR_MAX /* end */, 0 /* generation */);
++    memslot_info_add_slot(mem_info, 1, 0, 0 /* delta */, 0 /* start */, 0x80000000u /* end */,
++                          0 /* generation */);
++
+ }
+ 
+ static void init_qxl_surface(QXLSurfaceCmd *qxl)
+@@ -88,7 +91,7 @@
+     RedMemSlotInfo mem_info;
+     init_meminfo(&mem_info);
+ 
+-    memslot_get_virt(&mem_info, 0, 16, 1);
++    memslot_get_virt(&mem_info, 0, 16, 2);
+ }
+ 
+ static void test_memslot_invalid_slot_id(void)
+@@ -96,7 +99,7 @@
+     RedMemSlotInfo mem_info;
+     init_meminfo(&mem_info);
+ 
+-    memslot_get_virt(&mem_info, UINT64_C(1) << mem_info.memslot_id_shift, 16, 0);
++    memslot_get_virt(&mem_info, UINT64_C(1) << mem_info.memslot_id_shift, 16, 1);
+ }
+ 
+ static void test_memslot_invalid_addresses(void)
+
