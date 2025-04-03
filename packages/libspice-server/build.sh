@@ -8,11 +8,13 @@ TERMUX_PKG_SHA256=6d9eb6117f03917471c4bc10004abecff48a79fb85eb85a1c45f023377015b
 TERMUX_PKG_DEPENDS="glib, gst-plugins-base, gstreamer, libc++, libiconv, libjpeg-turbo, liblz4, libopus, liborc, libpixman, libsasl, libspice-protocol, openssl, zlib, libandroid-glob"
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
---enable-manual=no
---disable-tests
+-Dtests=false
+-Dmanual=false
+-Db_lto=true
 "
 
 termux_step_pre_configure() {
+        rm -f "$TERMUX_PKG_SRCDIR"/configure
 	LDFLAGS+=" $($CC -print-libgcc-file-name) -landroid-glob -lc++_shared"
 }
 
