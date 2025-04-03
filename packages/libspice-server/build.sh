@@ -14,6 +14,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 "
 
 termux_step_pre_configure() {
+	pip install pyparsing 
 	rm -f "$TERMUX_PKG_SRCDIR"/configure
 	LDFLAGS+=" $($CC -print-libgcc-file-name) -landroid-glob -lc++_shared"
 }
