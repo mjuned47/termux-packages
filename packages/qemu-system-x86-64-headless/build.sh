@@ -95,6 +95,7 @@ termux_step_configure() {
 		--enable-parallels \
 		--enable-qed \
 		--enable-sheepdog \
+		--disable-docs \
 		--target-list="$QEMU_TARGETS"
 }
 
