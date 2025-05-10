@@ -16,7 +16,7 @@ TERMUX_PKG_BUILD_IN_SRC=true
 
 termux_step_configure() {
 	local QEMU_TARGETS=""
-	export QEMU_PREFIX="${TERMUX_PREFIX}\qemu-${_PACKAGE_VERSION}"
+	export QEMU_PREFIX="${TERMUX_PREFIX}/qemu-${_PACKAGE_VERSION}"
 
 	# System emulation.
 	QEMU_TARGETS+="aarch64-softmmu,"
