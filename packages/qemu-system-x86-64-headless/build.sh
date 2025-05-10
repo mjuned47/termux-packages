@@ -102,9 +102,7 @@ termux_step_configure() {
 termux_step_post_make_install() {
 	local i
 	for i in aarch64 arm i386 riscv32 riscv64 x86_64; do
-		ln -sfr \
-			"${QEMU_PREFIX}"/share/man/man1/qemu.1 \
-			"${QEMU_PREFIX}"/share/man/man1/qemu-system-${i}.1
 		ln -sfr $QEMU_PREFIX/bin/qemu-system-${i} "${TERMUX_PREFIX}"/bin/qemu-system-${i}-${_PACKAGE_VERSION}
+                ln -sfr $QEMU_PREFIX/bin/qemu-${i} "${TERMUX_PREFIX}"/bin/qemu-${i}-${_PACKAGE_VERSION}
 	done
 }
