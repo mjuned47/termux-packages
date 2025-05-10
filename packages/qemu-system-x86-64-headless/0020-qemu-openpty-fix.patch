@@ -1,5 +1,5 @@
---- util/qemu-openpty.c.orig	2025-05-11 00:50:08.387441079 +0530
-+++ util/qemu-openpty.c	2025-05-11 00:48:45.647441111 +0530
+--- a/util/qemu-openpty.c	2025-05-11 00:50:08.387441079 +0530
++++ b/util/qemu-openpty.c	2025-05-11 00:48:45.647441111 +0530
 @@ -35,7 +35,7 @@
  #include "qemu/osdep.h"
  #include "qemu-common.h"
