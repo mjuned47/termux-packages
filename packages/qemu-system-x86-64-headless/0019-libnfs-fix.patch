@@ -1,0 +1,16 @@
+--- block/nfs.c.orig	2020-06-25 23:42:16.000000000 +0530
++++ block/nfs.c	2025-05-10 13:15:54.619149026 +0530
+@@ -273,9 +273,12 @@
+     nfs_co_init_task(bs, &task);
+     task.iov = iov;
+ 
++    char *buf = g_try_malloc(bytes);
++    if (!buf) return -ENOMEM;
++
+     qemu_mutex_lock(&client->mutex);
+     if (nfs_pread_async(client->context, client->fh,
+-                        offset, bytes, nfs_co_generic_cb, &task) != 0) {
++                        offset, buf, bytes, nfs_co_generic_cb, &task) != 0) {
+         qemu_mutex_unlock(&client->mutex);
+         return -ENOMEM;
+     }
