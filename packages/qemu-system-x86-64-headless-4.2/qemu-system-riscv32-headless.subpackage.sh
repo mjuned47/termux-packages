@@ -6,9 +6,9 @@ ${QEMU_VER}/bin/qemu-system-riscv32
 ${QEMU_VER}/bin/qemu-riscv32
 "
 termux_step_post_make_install() {
-        local i
-        for i in riscv32; do
-                ln -sfr $QEMU_VER/bin/qemu-system-${i} "${TERMUX_PREFIX}"/bin>
-                ln -sfr $QEMU_VER/bin/qemu-${i} "${TERMUX_PREFIX}"/bin/qemu-$>
-        done
+	local i
+	for i in riscv32; do
+		ln -sfr $QEMU_VER/bin/qemu-system-${i} "${TERMUX_PREFIX}"/bin>
+		ln -sfr $QEMU_VER/bin/qemu-${i} "${TERMUX_PREFIX}"/bin/qemu-$>
+	done
 }

@@ -6,9 +6,9 @@ ${QEMU_VER}/bin/qemu-system-aarch64
 ${QEMU_VER}/bin/qemu-aarch64
 "
 termux_step_post_make_install() {
-        local i
-        for i in aarch64 ; do
-                ln -sfr $QEMU_VER/bin/qemu-system-${i} "${TERMUX_PREFIX}"/bin>
-                ln -sfr $QEMU_VER/bin/qemu-${i} "${TERMUX_PREFIX}"/bin/qemu-$>
-        done
+	local i
+	for i in aarch64; do
+		ln -sfr $QEMU_VER/bin/qemu-system-${i} "${TERMUX_PREFIX}"/bin>
+		ln -sfr $QEMU_VER/bin/qemu-${i} "${TERMUX_PREFIX}"/bin/qemu-$>
+	done
 }
