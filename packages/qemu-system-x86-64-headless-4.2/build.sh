@@ -4,19 +4,17 @@ TERMUX_PKG_LICENSE="LGPL-2.1"
 TERMUX_PKG_MAINTAINER="Leonid Pliushch <leonid.pliushch@gmail.com>"
 # Do not update version unless you verified that it works properly.
 _PACKAGE_VERSION=4.2.1
-TERMUX_PKG_VERSION=1:${_PACKAGE_VERSION}
-TERMUX_PKG_REVISION=5
+TERMUX_PKG_VERSION=${_PACKAGE_VERSION}
+TERMUX_PKG_REVISION=1
 TERMUX_PKG_SRCURL=https://download.qemu.org/qemu-${_PACKAGE_VERSION}.tar.xz
 TERMUX_PKG_SHA256="7e331163b72e7bcf63bd35cb85cba87b48d12fab3f264b94c23f7d3991094207"
 TERMUX_PKG_DEPENDS="attr, glib, libbz2, libc++, libcap, libcurl, libgcrypt, libiconv, libjpeg-turbo, liblzo, libpixman, libpng, libssh, ncurses, qemu-common, resolv-conf, zlib, libxml2, libusbredir, libspice-server"
-#TERMUX_PKG_CONFLICTS="qemu-system-x86_64-headless"
-#TERMUX_PKG_REPLACES="qemu-system-x86_64-headless"
-TERMUX_PKG_PROVIDES="qemu-system-x86_64-headless-${_PACKAGE_VERSION}"
 TERMUX_PKG_BUILD_IN_SRC=true
 
 termux_step_configure() {
 	local QEMU_TARGETS=""
-	export QEMU_PREFIX="${TERMUX_PREFIX}/qemu-${_PACKAGE_VERSION}"
+	export QEMU_VER="qemu-${_PACKAGE_VERSION}"
+	export QEMU_PREFIX="${TERMUX_PREFIX}/${QEMU_VER}"
 
 	# System emulation.
 	QEMU_TARGETS+="aarch64-softmmu,"
@@ -101,7 +99,7 @@ termux_step_configure() {
 
 termux_step_post_make_install() {
 	local i
-	for i in aarch64 arm i386 riscv32 riscv64 x86_64; do
+	for i in x86_64; do
 		ln -sfr $QEMU_PREFIX/bin/qemu-system-${i} "${TERMUX_PREFIX}"/bin/qemu-system-${i}-${_PACKAGE_VERSION}
                 ln -sfr $QEMU_PREFIX/bin/qemu-${i} "${TERMUX_PREFIX}"/bin/qemu-${i}-${_PACKAGE_VERSION}
 	done

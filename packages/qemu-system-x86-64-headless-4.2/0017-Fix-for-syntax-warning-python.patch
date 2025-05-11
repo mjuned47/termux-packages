@@ -1,0 +1,39 @@
+--- a/scripts/tracetool/__init__.py	2020-06-25 23:42:17.000000000 +0530
++++ b/scripts/tracetool/__init__.py	2025-05-11 13:31:14.306021936 +0530
+@@ -73,7 +73,7 @@
+ def validate_type(name):
+     bits = name.split(" ")
+     for bit in bits:
+-        bit = re.sub("\*", "", bit)
++        bit = re.sub(r"\*", "", bit)
+         if bit == "":
+             continue
+         if bit == "const":
+@@ -200,12 +200,12 @@
+ 
+     """
+ 
+-    _CRE = re.compile("((?P<props>[\w\s]+)\s+)?"
+-                      "(?P<name>\w+)"
+-                      "\((?P<args>[^)]*)\)"
+-                      "\s*"
+-                      "(?:(?:(?P<fmt_trans>\".+),)?\s*(?P<fmt>\".+))?"
+-                      "\s*")
++    _CRE = re.compile(r"((?P<props>[\w\s]+)\s+)?"
++                      r"(?P<name>\w+)"
++                      r"\((?P<args>[^)]*)\)"
++                      r"\s*"
++                      r"(?:(?:(?P<fmt_trans>\".+),)?\s*(?P<fmt>\".+))?"
++                      r"\s*")
+ 
+     _VALID_PROPS = set(["disable", "tcg", "tcg-trans", "tcg-exec", "vcpu"])
+ 
+@@ -314,7 +314,7 @@
+                                           fmt)
+     # Star matching on PRI is dangerous as one might have multiple
+     # arguments with that format, hence the non-greedy version of it.
+-    _FMT = re.compile("(%[\d\.]*\w+|%.*?PRI\S+)")
++    _FMT = re.compile(r"(%[\d\.]*\w+|%.*?PRI\S+)")
+ 
+     def formats(self):
+         """List conversion specifiers in the argument print format string."""
