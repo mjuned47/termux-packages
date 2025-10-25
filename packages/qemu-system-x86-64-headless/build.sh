@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://www.qemu.org
 TERMUX_PKG_DESCRIPTION="A generic and open source machine emulator and virtualizer (headless)"
 TERMUX_PKG_LICENSE="GPL-2.0"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION=1:8.2.10
+TERMUX_PKG_VERSION=1:10.1.2
 TERMUX_PKG_SRCURL=https://download.qemu.org/qemu-${TERMUX_PKG_VERSION:2}.tar.xz
-TERMUX_PKG_SHA256=37b4a643da8ed6015eef35f5d7f06e7259d9c95359965a0a98e9667c621ab2bb
+TERMUX_PKG_SHA256=9d75f331c1a5cb9b6eb8fd9f64f563ec2eab346c822cb97f8b35cd82d3f11479
 TERMUX_PKG_DEPENDS="alsa-lib, dtc, glib, jack2, libbz2, libcurl, libdw, libgmp, libgnutls, libiconv, libjpeg-turbo, liblzo, libnettle, libpixman, libpng, libslirp, libspice-server, libssh, libusb, libusbredir, ncurses, pulseaudio, qemu-common, resolv-conf, zlib, zstd"
 
 # Required by configuration script, but I can't find any binary that uses it.
@@ -107,6 +107,7 @@ termux_step_configure() {
 		--enable-curl \
 		--enable-fdt=system \
 		--enable-kvm \
+		--enable-gunyah \
 		--disable-hvf \
 		--disable-whpx \
 		--disable-libnfs \
